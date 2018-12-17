@@ -25,8 +25,8 @@
 //          "fmt"
 //          "log"
 //
-//          "github.com/btcsuite/btcutil"
-//          "github.com/btcsuite/btcd/chaincfg"
+//          "github.com/ltcsuite/ltcutil"
+//          "github.com/ltcsuite/ltcd/chaincfg"
 //  )
 //
 //  var testnet = flag.Bool("testnet", false, "operate on the testnet Bitcoin network")
@@ -39,14 +39,14 @@
 //
 //          // Modify active network parameters if operating on testnet.
 //          if *testnet {
-//                  chainParams = &chaincfg.TestNet3Params
+//                  chainParams = &chaincfg.TestNet4Params
 //          }
 //
 //          // later...
 //
 //          // Create and print new payment address, specific to the active network.
 //          pubKeyHash := make([]byte, 20)
-//          addr, err := btcutil.NewAddressPubKeyHash(pubKeyHash, chainParams)
+//          addr, err := ltcutil.NewAddressPubKeyHash(pubKeyHash, chainParams)
 //          if err != nil {
 //                  log.Fatal(err)
 //          }
@@ -57,5 +57,5 @@
 // a new Params struct may be created which defines the parameters for the
 // non-standard network.  As a general rule of thumb, all network parameters
 // should be unique to the network, but parameter collisions can still occur
-// (unfortunately, this is the case with regtest and testnet3 sharing magics).
+// (unfortunately, this is the case with regtest and testnet sharing magics).
 package chaincfg

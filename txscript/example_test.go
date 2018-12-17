@@ -8,24 +8,24 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/btcsuite/btcd/btcec"
-	"github.com/btcsuite/btcd/chaincfg"
-	"github.com/btcsuite/btcd/chaincfg/chainhash"
-	"github.com/btcsuite/btcd/txscript"
-	"github.com/btcsuite/btcd/wire"
-	"github.com/btcsuite/btcutil"
+	"github.com/ltcsuite/ltcd/btcec"
+	"github.com/ltcsuite/ltcd/chaincfg"
+	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
+	"github.com/ltcsuite/ltcd/txscript"
+	"github.com/ltcsuite/ltcd/wire"
+	"github.com/ltcsuite/ltcutil"
 )
 
 // This example demonstrates creating a script which pays to a bitcoin address.
 // It also prints the created script hex and uses the DisasmString function to
 // display the disassembled script.
 func ExamplePayToAddrScript() {
-	// Parse the address to send the coins to into a btcutil.Address
+	// Parse the address to send the coins to into a ltcutil.Address
 	// which is useful to ensure the accuracy of the address and determine
 	// the address type.  It is also required for the upcoming call to
 	// PayToAddrScript.
-	addressStr := "12gpXQVcCL2qhTNQgyLVdCFG2Qs2px98nV"
-	address, err := btcutil.DecodeAddress(addressStr, &chaincfg.MainNetParams)
+	addressStr := "Leqay1p3dWuprsnwUjM2SBbrH9BiphaDUL"
+	address, err := ltcutil.DecodeAddress(addressStr, &chaincfg.MainNetParams)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -47,15 +47,15 @@ func ExamplePayToAddrScript() {
 	fmt.Println("Script Disassembly:", disasm)
 
 	// Output:
-	// Script Hex: 76a914128004ff2fcaf13b2b91eb654b1dc2b674f7ec6188ac
-	// Script Disassembly: OP_DUP OP_HASH160 128004ff2fcaf13b2b91eb654b1dc2b674f7ec61 OP_EQUALVERIFY OP_CHECKSIG
+	// Script Hex: 76a914d727964a99c6d3a39455232c0c234b17fd30310088ac
+	// Script Disassembly: OP_DUP OP_HASH160 d727964a99c6d3a39455232c0c234b17fd303100 OP_EQUALVERIFY OP_CHECKSIG
 }
 
 // This example demonstrates extracting information from a standard public key
 // script.
 func ExampleExtractPkScriptAddrs() {
 	// Start with a standard pay-to-pubkey-hash script.
-	scriptHex := "76a914128004ff2fcaf13b2b91eb654b1dc2b674f7ec6188ac"
+	scriptHex := "76a914d727964a99c6d3a39455232c0c234b17fd30310088ac"
 	script, err := hex.DecodeString(scriptHex)
 	if err != nil {
 		fmt.Println(err)
@@ -75,7 +75,7 @@ func ExampleExtractPkScriptAddrs() {
 
 	// Output:
 	// Script Class: pubkeyhash
-	// Addresses: [12gpXQVcCL2qhTNQgyLVdCFG2Qs2px98nV]
+	// Addresses: [Leqay1p3dWuprsnwUjM2SBbrH9BiphaDUL]
 	// Required Signatures: 1
 }
 
@@ -83,15 +83,14 @@ func ExampleExtractPkScriptAddrs() {
 func ExampleSignTxOutput() {
 	// Ordinarily the private key would come from whatever storage mechanism
 	// is being used, but for this example just hard code it.
-	privKeyBytes, err := hex.DecodeString("22a47fa09a223f2aa079edf85a7c2" +
-		"d4f8720ee63e502ee2869afab7de234b80c")
+	privKeyBytes, err := hex.DecodeString("eae5dee0c01fddf98202b91001191a7f599e478670443bf15701aa41a3d699bafd2834c34d36")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	privKey, pubKey := btcec.PrivKeyFromBytes(btcec.S256(), privKeyBytes)
-	pubKeyHash := btcutil.Hash160(pubKey.SerializeCompressed())
-	addr, err := btcutil.NewAddressPubKeyHash(pubKeyHash,
+	pubKeyHash := ltcutil.Hash160(pubKey.SerializeCompressed())
+	addr, err := ltcutil.NewAddressPubKeyHash(pubKeyHash,
 		&chaincfg.MainNetParams)
 	if err != nil {
 		fmt.Println(err)
@@ -130,7 +129,7 @@ func ExampleSignTxOutput() {
 	redeemTx.AddTxOut(txOut)
 
 	// Sign the redeeming transaction.
-	lookupKey := func(a btcutil.Address) (*btcec.PrivateKey, bool, error) {
+	lookupKey := func(a ltcutil.Address) (*btcec.PrivateKey, bool, error) {
 		// Ordinarily this function would involve looking up the private
 		// key for the provided address, but since the only thing being
 		// signed in this example uses the address associated with the
