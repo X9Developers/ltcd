@@ -482,7 +482,7 @@ func generateListeningAddresses() (string, string) {
 	localhost := "127.0.0.1"
 
 	portString := func(minPort, maxPort int) string {
-		port := minPort + numTestInstances + ((20 * processID) %
+		port := maxPort - numTestInstances - ((20 * processID) %
 			(maxPort - minPort))
 		return strconv.Itoa(port)
 	}
