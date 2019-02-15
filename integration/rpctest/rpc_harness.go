@@ -482,7 +482,7 @@ func generateListeningAddresses() (string, string) {
 	localhost := "127.0.0.1"
 
 	portString := func(minPort, maxPort int) string {
-		port := minPort + numTestInstances + ((20 * processID) %
+		port := maxPort - numTestInstances - ((20 * processID) %
 			(maxPort - minPort))
 		return strconv.Itoa(port)
 	}
@@ -494,7 +494,7 @@ func generateListeningAddresses() (string, string) {
 
 // baseDir is the directory path of the temp directory for all rpctest files.
 func baseDir() (string, error) {
-	dirPath := filepath.Join(os.TempDir(), "btcd", "rpctest")
+	dirPath := filepath.Join(os.TempDir(), "ltcd", "rpctest")
 	err := os.MkdirAll(dirPath, 0755)
 	return dirPath, err
 }
