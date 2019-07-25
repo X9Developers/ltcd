@@ -58,7 +58,7 @@ var (
 	amgrLog = backendLog.Logger("AMGR")
 	cmgrLog = backendLog.Logger("CMGR")
 	bcdbLog = backendLog.Logger("BCDB")
-	ltcdLog = backendLog.Logger("BTCD")
+	ltcdLog = backendLog.Logger("LTCD")
 	chanLog = backendLog.Logger("CHAN")
 	discLog = backendLog.Logger("DISC")
 	indxLog = backendLog.Logger("INDX")
