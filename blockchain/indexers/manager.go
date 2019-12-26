@@ -585,7 +585,6 @@ func dropIndex(db database.DB, idxKey []byte, idxName string, interrupt <-chan s
 	// memory usage and likely crash many systems due to ulimits.  In order
 	// to avoid this, use a cursor to delete a maximum number of entries out
 	// of the bucket at a time. Recurse buckets depth-first to delete any
-	// sub-buckets. Recurse buckets depth-first to delete any
 	// sub-buckets.
 	const maxDeletions = 2000000
 	var totalDeleted uint64

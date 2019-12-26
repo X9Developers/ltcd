@@ -20,6 +20,8 @@
     1. [Code Contribution Guidelines](#ContributionGuidelines)
     2. [JSON-RPC Reference](#JSONRPCReference)
     3. [The ltcsuite Litecoin-related Go Packages](#GoPackages)
+    4. [Litecoin functional changes](#LtcdDifferences)
+    5. [Diffing ltcd and btcd codebases](#Diffing)
 
 <a name="About" />
 
@@ -47,7 +49,7 @@ transactions based on miner requirements ("standard" transactions).
 
 One key difference between ltcd and Bitcoin Core is that ltcd does *NOT* include
 wallet functionality and this was a very intentional design decision.  See the
-blog entry [here](https://blog.conformal.com/ltcd-not-your-moms-bitcoin-daemon)
+blog entry [here](https://blog.conformal.com/btcd-not-your-moms-bitcoin-daemon)
 for more details.  This means you can't actually make or receive payments
 directly with ltcd.  That functionality is provided by the
 [btcwallet](https://github.com/btcsuite/btcwallet) and
@@ -131,11 +133,11 @@ $ GO111MODULE=on go install -v . ./cmd/...
 ltcd has a number of [configuration](http://godoc.org/github.com/ltcsuite/ltcd)
 options, which can be viewed by running: `$ ltcd --help`.
 
-<a name="BtcctlConfig" />
+<a name="ltcctlConfig" />
 
-**2.3 Controlling and Querying ltcd via btcctl**
+**2.3 Controlling and Querying ltcd via ltcctl**
 
-btcctl is a command line utility that can be used to both control and query ltcd
+ltcctl is a command line utility that can be used to both control and query ltcd
 via [RPC](http://www.wikipedia.org/wiki/Remote_procedure_call).  ltcd does
 **not** enable its RPC server by default;  You must configure at minimum both an
 RPC username and password or both an RPC limited username and password:
@@ -160,7 +162,7 @@ OR
 rpclimituser=mylimituser
 rpclimitpass=Limitedp4ssw0rd
 ```
-For a list of available options, run: `$ btcctl --help`
+For a list of available options, run: `$ ltcctl --help`
 
 <a name="Mining" />
 
@@ -228,7 +230,7 @@ configuration necessary, however, there is an optional method to use a
 **3.1 Wallet**
 
 ltcd was intentionally developed without an integrated wallet for security
-reasons.  Please see [btcwallet](https://github.com/btcsuite/btcwallet) for more
+reasons.  Please see [ltcwallet](https://github.com/ltcsuite/ltcwallet) for more
 information.
 
 
@@ -246,9 +248,9 @@ information.
 
 **4.2 Mailing Lists**
 
-* <a href="mailto:ltcd+subscribe@opensource.conformal.com">ltcd</a>: discussion
-  of ltcd and its packages.
-* <a href="mailto:ltcd-commits+subscribe@opensource.conformal.com">ltcd-commits</a>:
+* <a href="mailto:ltcd+subscribe@opensource.conformal.com">btcd</a>: discussion
+  of btcd and its packages.
+* <a href="mailto:ltcd-commits+subscribe@opensource.conformal.com">btcd-commits</a>:
   readonly mail-out of source code changes.
 
 <a name="DeveloperResources" />
@@ -289,10 +291,38 @@ information.
     * [mempool](https://github.com/ltcsuite/ltcd/tree/master/mempool) -
       Package mempool provides a policy-enforced pool of unmined bitcoin
       transactions.
-    * [btcutil](https://github.com/ltcsuite/ltcutil) - Provides Bitcoin-specific
+    * [ltcutil](https://github.com/ltcsuite/ltcutil) - Provides Bitcoin-specific
       convenience functions and types
     * [chainhash](https://github.com/ltcsuite/ltcd/tree/master/chaincfg/chainhash) -
       Provides a generic hash type and associated functions that allows the
       specific hash algorithm to be abstracted.
     * [connmgr](https://github.com/ltcsuite/ltcd/tree/master/connmgr) -
       Package connmgr implements a generic Bitcoin network connection manager.
+
+
+
+<a name="LtcdDifferences" />
+
+* Litecoin functional changes:
+    * wire/blockheader.go - declare PowHash method (for scrypt) used instead of BlockHash
+    * blockchain/difficulty.go - blocksPerRetarget change (+ comment about a litecoin bugfix)
+    * blockchain/validate.go - use PowHash (for scrypt) used instead of BlockHash
+    * mining/cpuminer/cpu_miner.go - use PowHash (for scypt) used instead of BlockHash
+    * wire/protocol.go - ProtocolVersion uses 70015 instead of 70013; MainNet magic number is different; TestNet4 is used instead of TestNet3
+    * example_test.go - litecoin address used instead of bitcoin address
+
+
+<a name="Diffing" />
+
+* diffing ltcd and btcd codebases
+    * ltcd and the ltcsuite group of projects are a fork of btcd and btcsuite.
+        A lot of the changes involve simple renaming of 'btc' to 'ltc'.  
+        If you wish to diff the two projects (ltcd/btcd) without being swamped,
+        the following grep commands will revert the naming changes when run in the ltcd directory.
+        (There are a few exceptions to these rules, so this kind of change should only be used as an aid to diffing).
+             
+            find -name '*.go' -exec sed -i 's/ltcd/btcd/g' {} +
+            find -name '*.go' -exec sed -i 's/ltcsuite/btcsuite/g' {} +
+            find -name '*.go' -exec sed -i 's/ltcutil/btcutil/g' {} +
+
+
