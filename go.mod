@@ -13,7 +13,7 @@ require (
 	github.com/jessevdk/go-flags v0.0.0-20141203071132-1679536dcc89
 	github.com/jrick/logrotate v1.0.0
 	github.com/kkdai/bstream v1.0.0 // indirect
-	github.com/ltcsuite/ltcutil v0.0.0-20190507082654-23cdfa9fcc3d
+	github.com/ltcsuite/ltcutil v0.0.0-20191227053721-6bec450ea6ad
 	golang.org/x/crypto v0.0.0-20190618222545-ea8f1a30c443
 )
 
