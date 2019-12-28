@@ -11,9 +11,8 @@ require (
 	github.com/davecgh/go-spew v0.0.0-20171005155431-ecdeabc65495
 	github.com/jessevdk/go-flags v0.0.0-20141203071132-1679536dcc89
 	github.com/jrick/logrotate v1.0.0
-	github.com/ltcsuite/ltcutil v0.0.0-20191226032613-62bc5ec29fbb
-	github.com/onsi/ginkgo v1.11.0 // indirect
-	github.com/onsi/gomega v1.8.1 // indirect
-	golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4
+	github.com/kkdai/bstream v1.0.0 // indirect
+	github.com/ltcsuite/ltcutil v0.0.0-20191227053721-6bec450ea6ad
+	golang.org/x/crypto v0.0.0-20190618222545-ea8f1a30c443
 )
 
