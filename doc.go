@@ -3,22 +3,22 @@
 // license that can be found in the LICENSE file.
 
 /*
-btcd is a full-node bitcoin implementation written in Go.
+ltcd is a full-node Litecoin implementation written in Go.
 
-The default options are sane for most users.  This means btcd will work 'out of
+The default options are sane for most users.  This means ltcd will work 'out of
 the box' for most users.  However, there are also a wide variety of flags that
 can be used to control it.
 
 The following section provides a usage overview which enumerates the flags.  An
 interesting point to note is that the long form of all of these options
 (except -C) can be specified in a configuration file that is automatically
-parsed when btcd starts up.  By default, the configuration file is located at
-~/.btcd/btcd.conf on POSIX-style operating systems and %LOCALAPPDATA%\btcd\btcd.conf
+parsed when ltcd starts up.  By default, the configuration file is located at
+~/.ltcd/ltcd.conf on POSIX-style operating systems and %LOCALAPPDATA%\ltcd\ltcd.conf
 on Windows.  The -C (--configfile) flag, as shown below, can be used to override
 this location.
 
 Usage:
-  btcd [OPTIONS]
+  ltcd [OPTIONS]
 
 Application Options:
       --addcheckpoint=        Add a custom checkpoint.  Format:
@@ -66,7 +66,7 @@ Application Options:
                               database on start up and then exits.
       --externalip=           Add an ip to the list of local addresses we claim
                               to listen on to peers
-      --generate              Generate (mine) bitcoins using the CPU
+      --generate              Generate (mine) litecoins using the CPU
       --limitfreerelay=       Limit relay of transactions with no transaction
                               fee to the given amount in thousands of bytes per
                               minute (default: 15)
@@ -82,7 +82,7 @@ Application Options:
                               addresses to use for generated blocks -- At least
                               one address is required if the generate option is
                               set
-      --minrelaytxfee=        The minimum transaction fee in BTC/kB to be
+      --minrelaytxfee=        The minimum transaction fee in LTC/kB to be
                               considered a non-zero fee. (default: 1e-05)
       --nobanning             Disable banning of misbehaving peers
       --nocfilters            Disable committed filtering (CF) support
@@ -130,7 +130,7 @@ Application Options:
                               processed concurrently (default: 20)
       --rpcmaxwebsockets=     Max number of RPC websocket connections (default:
                               25)
-      --rpcquirks             Mirror some JSON-RPC quirks of Bitcoin Core --
+      --rpcquirks             Mirror some JSON-RPC quirks of Litecoin Core --
                               NOTE: Discouraged unless interoperability issues
                               need to be worked around
   -P, --rpcpass=              Password for RPC connections

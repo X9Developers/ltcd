@@ -13,10 +13,10 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/btcsuite/btcd/btcjson"
-	"github.com/btcsuite/btcd/chaincfg"
-	"github.com/btcsuite/btcutil"
 	flags "github.com/jessevdk/go-flags"
+	"github.com/ltcsuite/ltcd/btcjson"
+	"github.com/ltcsuite/ltcd/chaincfg"
+	"github.com/ltcsuite/ltcutil"
 )
 
 const (
@@ -27,13 +27,13 @@ const (
 )
 
 var (
-	btcdHomeDir           = btcutil.AppDataDir("btcd", false)
-	btcctlHomeDir         = btcutil.AppDataDir("btcctl", false)
-	btcwalletHomeDir      = btcutil.AppDataDir("btcwallet", false)
-	defaultConfigFile     = filepath.Join(btcctlHomeDir, "btcctl.conf")
+	ltcdHomeDir           = ltcutil.AppDataDir("ltcd", false)
+	ltcctlHomeDir         = ltcutil.AppDataDir("ltcctl", false)
+	ltcwalletHomeDir      = ltcutil.AppDataDir("ltcwallet", false)
+	defaultConfigFile     = filepath.Join(ltcctlHomeDir, "ltcctl.conf")
 	defaultRPCServer      = "localhost"
-	defaultRPCCertFile    = filepath.Join(btcdHomeDir, "rpc.cert")
-	defaultWalletCertFile = filepath.Join(btcwalletHomeDir, "rpc.cert")
+	defaultRPCCertFile    = filepath.Join(ltcdHomeDir, "rpc.cert")
+	defaultWalletCertFile = filepath.Join(ltcwalletHomeDir, "rpc.cert")
 )
 
 // listCommands categorizes and lists all of the usable commands along with
@@ -89,7 +89,7 @@ func listCommands() {
 	}
 }
 
-// config defines the configuration options for btcctl.
+// config defines the configuration options for ltcctl.
 //
 // See loadConfig for details on the configuration load process.
 type config struct {
@@ -106,7 +106,7 @@ type config struct {
 	RPCUser        string `short:"u" long:"rpcuser" description:"RPC username"`
 	SimNet         bool   `long:"simnet" description:"Connect to the simulation test network"`
 	TLSSkipVerify  bool   `long:"skipverify" description:"Do not verify tls certificates (not recommended!)"`
-	TestNet3       bool   `long:"testnet" description:"Connect to testnet"`
+	TestNet4       bool   `long:"testnet" description:"Connect to testnet"`
 	ShowVersion    bool   `short:"V" long:"version" description:"Display version information and exit"`
 	Wallet         bool   `long:"wallet" description:"Connect to wallet"`
 }
@@ -118,11 +118,11 @@ func normalizeAddress(addr string, chain *chaincfg.Params, useWallet bool) (stri
 	if err != nil {
 		var defaultPort string
 		switch chain {
-		case &chaincfg.TestNet3Params:
+		case &chaincfg.TestNet4Params:
 			if useWallet {
 				defaultPort = "18332"
 			} else {
-				defaultPort = "18334"
+				defaultPort = "19334"
 			}
 		case &chaincfg.SimNetParams:
 			if useWallet {
@@ -140,9 +140,9 @@ func normalizeAddress(addr string, chain *chaincfg.Params, useWallet bool) (stri
 			}
 		default:
 			if useWallet {
-				defaultPort = "8332"
+				defaultPort = "9332"
 			} else {
-				defaultPort = "8334"
+				defaultPort = "9334"
 			}
 		}
 
@@ -156,7 +156,7 @@ func normalizeAddress(addr string, chain *chaincfg.Params, useWallet bool) (stri
 func cleanAndExpandPath(path string) string {
 	// Expand initial ~ to OS specific home directory.
 	if strings.HasPrefix(path, "~") {
-		homeDir := filepath.Dir(btcctlHomeDir)
+		homeDir := filepath.Dir(ltcctlHomeDir)
 		path = strings.Replace(path, "~", homeDir, 1)
 	}
 
@@ -224,9 +224,9 @@ func loadConfig() (*config, []string, error) {
 		// Use config file for RPC server to create default btcctl config
 		var serverConfigPath string
 		if preCfg.Wallet {
-			serverConfigPath = filepath.Join(btcwalletHomeDir, "btcwallet.conf")
+			serverConfigPath = filepath.Join(ltcwalletHomeDir, "ltcwallet.conf")
 		} else {
-			serverConfigPath = filepath.Join(btcdHomeDir, "btcd.conf")
+			serverConfigPath = filepath.Join(ltcdHomeDir, "ltcd.conf")
 		}
 
 		err := createDefaultConfigFile(preCfg.ConfigFile, serverConfigPath)
@@ -261,9 +261,9 @@ func loadConfig() (*config, []string, error) {
 
 	// Multiple networks can't be selected simultaneously.
 	numNets := 0
-	if cfg.TestNet3 {
+	if cfg.TestNet4 {
 		numNets++
-		network = &chaincfg.TestNet3Params
+		network = &chaincfg.TestNet4Params
 	}
 	if cfg.SimNet {
 		numNets++
@@ -302,8 +302,8 @@ func loadConfig() (*config, []string, error) {
 }
 
 // createDefaultConfig creates a basic config file at the given destination path.
-// For this it tries to read the config file for the RPC server (either btcd or
-// btcwallet), and extract the RPC user and password from it.
+// For this it tries to read the config file for the RPC server (either ltcd or
+// ltcwallet), and extract the RPC user and password from it.
 func createDefaultConfigFile(destinationPath, serverConfigPath string) error {
 	// Read the RPC server config
 	serverConfigFile, err := os.Open(serverConfigPath)

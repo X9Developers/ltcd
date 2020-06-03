@@ -1,12 +1,13 @@
 integration
 ===========
 
-[![Build Status](http://img.shields.io/travis/btcsuite/btcd.svg)](https://travis-ci.org/btcsuite/btcd)
-[![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
+[![Build Status](http://img.shields.io/travis/ltcsuite/ltcd.svg)]
+(https://travis-ci.org/ltcsuite/ltcd) [![ISC License]
+(http://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
 
 This contains integration tests which make use of the
-[rpctest](https://github.com/btcsuite/btcd/tree/master/integration/rpctest)
-package to programmatically drive nodes via RPC.
+[rpctest](https://github.com/ltcsuite/ltcd/tree/master/rpctest) package to
+programmatically drive nodes via RPC.
 
 ## License
 
