@@ -9,12 +9,12 @@ import (
 	"os"
 	"path/filepath"
 
+	flags "github.com/jessevdk/go-flags"
 	"github.com/ltcsuite/ltcd/chaincfg"
 	"github.com/ltcsuite/ltcd/database"
 	_ "github.com/ltcsuite/ltcd/database/ffldb"
 	"github.com/ltcsuite/ltcd/wire"
 	"github.com/ltcsuite/ltcutil"
-	flags "github.com/jessevdk/go-flags"
 )
 
 const (
@@ -37,11 +37,11 @@ var (
 type config struct {
 	DataDir        string `short:"b" long:"datadir" description:"Location of the ltcd data directory"`
 	DbType         string `long:"dbtype" description:"Database backend to use for the Block Chain"`
-	TestNet4       bool   `long:"testnet" description:"Use the test network"`
+	UseGoOutput    bool   `short:"g" long:"gooutput" description:"Display the candidates using Go syntax that is ready to insert into the ltcchain checkpoint list"`
+	NumCandidates  int    `short:"n" long:"numcandidates" description:"Max num of checkpoint candidates to show {1-20}"`
 	RegressionTest bool   `long:"regtest" description:"Use the regression test network"`
 	SimNet         bool   `long:"simnet" description:"Use the simulation test network"`
-	NumCandidates  int    `short:"n" long:"numcandidates" description:"Max num of checkpoint candidates to show {1-20}"`
-	UseGoOutput    bool   `short:"g" long:"gooutput" description:"Display the candidates using Go syntax that is ready to insert into the btcchain checkpoint list"`
+	TestNet4       bool   `long:"testnet" description:"Use the test network"`
 }
 
 // validDbType returns whether or not dbType is a supported database type.
