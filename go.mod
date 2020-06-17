@@ -11,6 +11,6 @@ require (
 	github.com/davecgh/go-spew v1.1.1
 	github.com/jessevdk/go-flags v1.4.0
 	github.com/jrick/logrotate v1.0.0
-	github.com/ltcsuite/ltcutil v1.0.2
+	github.com/ltcsuite/ltcutil v1.0.2-beta
 	golang.org/x/crypto v0.0.0-20200510223506-06a226fb4e37
 )
