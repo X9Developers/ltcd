@@ -10,9 +10,9 @@ import (
 	"runtime"
 	"time"
 
+	"github.com/ltcsuite/ltcd/ltcutil"
 	"github.com/ltcsuite/ltcd/txscript"
 	"github.com/ltcsuite/ltcd/wire"
-	"github.com/ltcsuite/ltcutil"
 )
 
 // txValidateItem holds a transaction along with which input to validate.

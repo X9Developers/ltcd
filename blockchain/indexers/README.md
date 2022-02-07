@@ -1,7 +1,9 @@
 indexers
 ========
 
-[![Build Status](https://travis-ci.org/ltcsuite/ltcd.png?branch=master)](https://travis-ci.org/ltcsuite/ltcd)
+[![Build Status](https://github.com/ltcsuite/ltcd/workflows/Build%20and%20Test/badge.svg)](https://github.com/ltcsuite/ltcd/actions)
+[![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
+[![GoDoc](https://pkg.go.dev/github.com/ltcsuite/ltcd/blockchain/indexers?status.png)](https://pkg.go.dev/github.com/ltcsuite/ltcd/blockchain/indexers)
 
 Package indexers implements optional block chain indexes.
 

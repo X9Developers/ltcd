@@ -7,14 +7,15 @@ package database_test
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 
 	"github.com/ltcsuite/ltcd/chaincfg"
 	"github.com/ltcsuite/ltcd/database"
 	_ "github.com/ltcsuite/ltcd/database/ffldb"
+	"github.com/ltcsuite/ltcd/ltcutil"
 	"github.com/ltcsuite/ltcd/wire"
-	"github.com/ltcsuite/ltcutil"
 )
 
 // This example demonstrates creating a new database.
@@ -122,9 +123,14 @@ func Example_blockStorageAndRetrieval() {
 	// Typically you wouldn't want to remove the database right away like
 	// this, nor put it in the temp directory, but it's done here to ensure
 	// the example cleans up after itself.
-	dbPath := filepath.Join(os.TempDir(), "exampleblkstorage")
+	dbPath, err := ioutil.TempDir("", "exampleblkstorage")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	db, err := database.Create("ffldb", dbPath, wire.MainNet)
 	if err != nil {
+		fmt.Println("fail here")
 		fmt.Println(err)
 		return
 	}

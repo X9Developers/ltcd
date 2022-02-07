@@ -1,8 +1,9 @@
 treap
 =====
 
-[![Build Status](https://travis-ci.org/ltcsuite/ltcd.png?branch=master)]
-(https://travis-ci.org/ltcsuite/ltcd)
+[![Build Status](https://github.com/ltcsuite/ltcd/workflows/Build%20and%20Test/badge.svg)](https://github.com/ltcsuite/ltcd/actions)
+[![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
+[![GoDoc](https://pkg.go.dev/github.com/ltcsuite/ltcd/database/internal/treap?status.png)](https://pkg.go.dev/github.com/ltcsuite/ltcd/database/internal/treap)
 
 Package treap implements a treap data structure that is used to hold ordered
 key/value pairs using a combination of binary search tree and heap semantics.

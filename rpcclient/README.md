@@ -1,9 +1,9 @@
 rpcclient
 =========
 
-[![Build Status](http://img.shields.io/travis/ltcsuite/ltcd.svg)](https://travis-ci.org/ltcsuite/ltcd)
+[![Build Status](https://github.com/ltcsuite/ltcd/workflows/Build%20and%20Test/badge.svg)](https://github.com/ltcsuite/ltcd/actions)
 [![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](http://godoc.org/github.com/ltcsuite/ltcd/rpcclient)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://pkg.go.dev/github.com/ltcsuite/ltcd/rpcclient)
 
 rpcclient implements a Websocket-enabled Bitcoin JSON-RPC client package written
 in [Go](http://golang.org/).  It provides a robust and easy to use client for
@@ -18,8 +18,8 @@ implement and the API is not stable yet.
 
 ## Documentation
 
-* [API Reference](http://godoc.org/github.com/ltcsuite/ltcd/rpcclient)
-* [btcd Websockets Example](https://github.com/ltcsuite/ltcd/tree/master/rpcclient/examples/ltcdwebsockets)
+* [API Reference](https://pkg.go.dev/github.com/ltcsuite/ltcd/rpcclient)
+* [btcd Websockets Example](https://github.com/ltcsuite/ltcd/tree/master/rpcclient/examples/btcdwebsockets)
   Connects to a btcd RPC server using TLS-secured websockets, registers for
   block connected and block disconnected notifications, and gets the current
   block count

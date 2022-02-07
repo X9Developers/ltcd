@@ -29,6 +29,8 @@ import (
 	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
 	"github.com/ltcsuite/ltcd/connmgr"
 	"github.com/ltcsuite/ltcd/database"
+	"github.com/ltcsuite/ltcd/ltcutil"
+	"github.com/ltcsuite/ltcd/ltcutil/bloom"
 	"github.com/ltcsuite/ltcd/mempool"
 	"github.com/ltcsuite/ltcd/mining"
 	"github.com/ltcsuite/ltcd/mining/cpuminer"
@@ -36,8 +38,6 @@ import (
 	"github.com/ltcsuite/ltcd/peer"
 	"github.com/ltcsuite/ltcd/txscript"
 	"github.com/ltcsuite/ltcd/wire"
-	"github.com/ltcsuite/ltcutil"
-	"github.com/ltcsuite/ltcutil/bloom"
 )
 
 const (
@@ -1321,7 +1321,11 @@ func (sp *serverPeer) OnNotFound(p *peer.Peer, msg *wire.MsgNotFound) {
 		switch inv.Type {
 		case wire.InvTypeBlock:
 			numBlocks++
+		case wire.InvTypeWitnessBlock:
+			numBlocks++
 		case wire.InvTypeTx:
+			numTxns++
+		case wire.InvTypeWitnessTx:
 			numTxns++
 		default:
 			peerLog.Debugf("Invalid inv type '%d' in notfound message from %s",
@@ -2050,17 +2054,18 @@ func newPeerConfig(sp *serverPeer) *peer.Config {
 			// other implementations' alert messages, we will not relay theirs.
 			OnAlert: nil,
 		},
-		NewestBlock:       sp.newestBlock,
-		HostToNetAddress:  sp.server.addrManager.HostToNetAddress,
-		Proxy:             cfg.Proxy,
-		UserAgentName:     userAgentName,
-		UserAgentVersion:  userAgentVersion,
-		UserAgentComments: cfg.UserAgentComments,
-		ChainParams:       sp.server.chainParams,
-		Services:          sp.server.services,
-		DisableRelayTx:    cfg.BlocksOnly,
-		ProtocolVersion:   peer.MaxProtocolVersion,
-		TrickleInterval:   cfg.TrickleInterval,
+		NewestBlock:         sp.newestBlock,
+		HostToNetAddress:    sp.server.addrManager.HostToNetAddress,
+		Proxy:               cfg.Proxy,
+		UserAgentName:       userAgentName,
+		UserAgentVersion:    userAgentVersion,
+		UserAgentComments:   cfg.UserAgentComments,
+		ChainParams:         sp.server.chainParams,
+		Services:            sp.server.services,
+		DisableRelayTx:      cfg.BlocksOnly,
+		ProtocolVersion:     peer.MaxProtocolVersion,
+		TrickleInterval:     cfg.TrickleInterval,
+		DisableStallHandler: cfg.DisableStallHandler,
 	}
 }
 

@@ -25,7 +25,7 @@
 //          "fmt"
 //          "log"
 //
-//          "github.com/ltcsuite/ltcutil"
+//          "github.com/ltcsuite/ltcd/ltcutil"
 //          "github.com/ltcsuite/ltcd/chaincfg"
 //  )
 //

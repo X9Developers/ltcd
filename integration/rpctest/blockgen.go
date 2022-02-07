@@ -14,9 +14,10 @@ import (
 	"github.com/ltcsuite/ltcd/blockchain"
 	"github.com/ltcsuite/ltcd/chaincfg"
 	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
+	"github.com/ltcsuite/ltcd/ltcutil"
+	"github.com/ltcsuite/ltcd/mining"
 	"github.com/ltcsuite/ltcd/txscript"
 	"github.com/ltcsuite/ltcd/wire"
-	"github.com/ltcsuite/ltcutil"
 )
 
 // solveBlock attempts to find a nonce which makes the passed block header hash
@@ -181,6 +182,21 @@ func CreateBlock(prevBlock *ltcutil.Block, inclusionTxs []*ltcutil.Tx,
 	if inclusionTxs != nil {
 		blockTxns = append(blockTxns, inclusionTxs...)
 	}
+
+	// We must add the witness commitment to the coinbase if any
+	// transactions are segwit.
+	witnessIncluded := false
+	for i := 1; i < len(blockTxns); i++ {
+		if blockTxns[i].MsgTx().HasWitness() {
+			witnessIncluded = true
+			break
+		}
+	}
+
+	if witnessIncluded {
+		_ = mining.AddWitnessCommitment(coinbaseTx, blockTxns)
+	}
+
 	merkles := blockchain.BuildMerkleTreeStore(blockTxns, false)
 	var block wire.MsgBlock
 	block.Header = wire.BlockHeader{

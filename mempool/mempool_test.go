@@ -13,12 +13,12 @@ import (
 	"time"
 
 	"github.com/ltcsuite/ltcd/blockchain"
-	"github.com/ltcsuite/ltcd/btcec"
+	"github.com/ltcsuite/ltcd/btcec/v2"
 	"github.com/ltcsuite/ltcd/chaincfg"
 	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
+	"github.com/ltcsuite/ltcd/ltcutil"
 	"github.com/ltcsuite/ltcd/txscript"
 	"github.com/ltcsuite/ltcd/wire"
-	"github.com/ltcsuite/ltcutil"
 )
 
 // fakeChain is used by the pool harness to provide generated test utxos and
@@ -290,7 +290,7 @@ func newPoolHarness(chainParams *chaincfg.Params) (*poolHarness, []spendableOutp
 	if err != nil {
 		return nil, nil, err
 	}
-	signKey, signPub := btcec.PrivKeyFromBytes(btcec.S256(), keyBytes)
+	signKey, signPub := btcec.PrivKeyFromBytes(keyBytes)
 
 	// Generate associated pay-to-script-hash address and resulting payment
 	// script.
@@ -1744,6 +1744,47 @@ func TestRBF(t *testing.T) {
 				}
 
 				return tx, []*ltcutil.Tx{parent, child}
+			},
+			err: "",
+		},
+		{
+			// A transaction that doesn't signal replacement, can
+			// be replaced if the parent signals replacement.
+			name: "inherited replacement",
+			setup: func(ctx *testContext) (*ltcutil.Tx, []*ltcutil.Tx) {
+				coinbase := ctx.addCoinbaseTx(1)
+
+				// Create an initial parent transaction that
+				// marks replacement, we won't be replacing
+				// this directly however.
+				coinbaseOut := txOutToSpendableOut(coinbase, 0)
+				outs := []spendableOutput{coinbaseOut}
+				parent := ctx.addSignedTx(
+					outs, 1, defaultFee, true, false,
+				)
+
+				// Now create a transaction that spends that
+				// parent transaction, which is marked as NOT
+				// being RBF-able.
+				parentOut := txOutToSpendableOut(parent, 0)
+				parentOuts := []spendableOutput{parentOut}
+				childNoReplace := ctx.addSignedTx(
+					parentOuts, 1, defaultFee, false, false,
+				)
+
+				// Now we'll create another transaction that
+				// replaces the *child* only. This should work
+				// as the parent has been marked for RBF, even
+				// though the child hasn't.
+				respendOuts := []spendableOutput{parentOut}
+				childReplace, err := ctx.harness.CreateSignedTx(
+					respendOuts, 1, defaultFee*3, false,
+				)
+				if err != nil {
+					ctx.t.Fatalf("unable to create child tx: %v", err)
+				}
+
+				return childReplace, []*ltcutil.Tx{childNoReplace}
 			},
 			err: "",
 		},

@@ -84,11 +84,6 @@ var (
 	// sentNonces houses the unique nonces that are generated when pushing
 	// version messages that are used to detect self connections.
 	sentNonces = lru.NewCache(50)
-
-	// allowSelfConns is only used to allow the tests to bypass the self
-	// connection detecting and disconnect logic since they intentionally
-	// do so for testing purposes.
-	allowSelfConns bool
 )
 
 // MessageListeners defines callback function pointers to invoke with message
@@ -276,6 +271,18 @@ type Config struct {
 	// TrickleInterval is the duration of the ticker which trickles down the
 	// inventory to a peer.
 	TrickleInterval time.Duration
+
+	// AllowSelfConns is only used to allow the tests to bypass the self
+	// connection detecting and disconnect logic since they intentionally
+	// do so for testing purposes.
+	AllowSelfConns bool
+
+	// DisableStallHandler if true, then the stall handler that attempts to
+	// disconnect from peers that appear to be taking too long to respond
+	// to requests won't be activated. This can be useful in certain simnet
+	// scenarios where the stall behavior isn't important to the system
+	// under test.
+	DisableStallHandler bool
 }
 
 // minUint32 is a helper function to return the minimum of two uint32s.
@@ -495,6 +502,10 @@ func (p *Peer) String() string {
 // This function is safe for concurrent access.
 func (p *Peer) UpdateLastBlockHeight(newHeight int32) {
 	p.statsMtx.Lock()
+	if newHeight <= p.lastBlock {
+		p.statsMtx.Unlock()
+		return
+	}
 	log.Tracef("Updating last block height of peer %v from %v to %v",
 		p.addr, p.lastBlock, newHeight)
 	p.lastBlock = newHeight
@@ -1194,6 +1205,10 @@ out:
 	for {
 		select {
 		case msg := <-p.stallControl:
+			if p.cfg.DisableStallHandler {
+				continue
+			}
+
 			switch msg.command {
 			case sccSendMessage:
 				// Add a deadline for the expected response
@@ -1256,6 +1271,10 @@ out:
 			}
 
 		case <-stallTicker.C:
+			if p.cfg.DisableStallHandler {
+				continue
+			}
+
 			// Calculate the offset to apply to the deadline based
 			// on how long the handlers have taken to execute since
 			// the last tick.
@@ -1888,7 +1907,7 @@ func (p *Peer) readRemoteVersionMsg() error {
 	}
 
 	// Detect self connections.
-	if !allowSelfConns && sentNonces.Contains(msg.Nonce) {
+	if !p.cfg.AllowSelfConns && sentNonces.Contains(msg.Nonce) {
 		return errors.New("disconnecting peer connected to self")
 	}
 

@@ -1,9 +1,9 @@
 database
 ========
 
-[![Build Status](http://img.shields.io/travis/ltcsuite/ltcd.svg)](https://travis-ci.org/ltcsuite/ltcd)
+[![Build Status](https://github.com/ltcsuite/ltcd/workflows/Build%20and%20Test/badge.svg)](https://github.com/ltcsuite/ltcd/actions)
 [![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](http://godoc.org/github.com/ltcsuite/ltcd/database)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://pkg.go.dev/github.com/ltcsuite/ltcd/database)
 
 Package database provides a block and metadata storage database.
 
@@ -42,13 +42,11 @@ $ go get -u github.com/ltcsuite/ltcd/database
 
 ## Examples
 
-* [Basic Usage Example]
-  (http://godoc.org/github.com/ltcsuite/ltcd/database#example-package--BasicUsage)  
+* [Basic Usage Example](https://pkg.go.dev/github.com/ltcsuite/ltcd/database#example-package--BasicUsage)  
   Demonstrates creating a new database and using a managed read-write
   transaction to store and retrieve metadata.
 
-* [Block Storage and Retrieval Example]
-  (http://godoc.org/github.com/ltcsuite/ltcd/database#example-package--BlockStorageAndRetrieval)  
+* [Block Storage and Retrieval Example](https://pkg.go.dev/github.com/ltcsuite/ltcd/database#example-package--BlockStorageAndRetrieval)  
   Demonstrates creating a new database, using a managed read-write transaction
   to store a block, and then using a managed read-only transaction to fetch the
   block.

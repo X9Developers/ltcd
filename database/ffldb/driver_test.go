@@ -9,13 +9,12 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
-	"runtime"
 	"testing"
 
 	"github.com/ltcsuite/ltcd/chaincfg"
 	"github.com/ltcsuite/ltcd/database"
 	"github.com/ltcsuite/ltcd/database/ffldb"
-	"github.com/ltcsuite/ltcutil"
+	"github.com/ltcsuite/ltcd/ltcutil"
 )
 
 // dbType is the database type name for this driver.
@@ -278,7 +277,6 @@ func TestInterface(t *testing.T) {
 	}
 
 	// Run all of the interface tests against the database.
-	runtime.GOMAXPROCS(runtime.NumCPU())
 
 	// Change the maximum file size to a small value to force multiple flat
 	// files with the test data set.

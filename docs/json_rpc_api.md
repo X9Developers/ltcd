@@ -1,4 +1,5 @@
-### Table of Contents
+# JSON RPC API
+
 1. [Overview](#Overview)<br />
 2. [HTTP POST Versus Websockets](#HttpPostVsWebsockets)<br />
 3. [Authentication](#Authentication)<br />
@@ -1074,7 +1075,7 @@ various languages.
 **9.1 Go**
 
 This section provides examples of using the RPC interface using Go and the
-[rpcclient](https://github.com/btcsuite/btcd/tree/master/rpcclient) package.
+[rpcclient](https://github.com/ltcsuite/ltcd/tree/master/rpcclient) package.
 
 * [Using getblockcount to Retrieve the Current Block Height](#ExampleGetBlockCount)
 * [Using getblock to Retrieve the Genesis Block](#ExampleGetBlock)
@@ -1099,7 +1100,7 @@ import (
 	"path/filepath"
 
 	"github.com/ltcsuite/ltcd/rpcclient"
-	"github.com/ltcsuite/ltcutil"
+	"github.com/ltcsuite/ltcd/ltcutil"
 )
 
 func main() {
@@ -1163,7 +1164,7 @@ import (
 
 	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
 	"github.com/ltcsuite/ltcd/rpcclient"
-	"github.com/ltcsuite/ltcutil"
+	"github.com/ltcsuite/ltcd/ltcutil"
 )
 
 func main() {
@@ -1255,7 +1256,7 @@ import (
 
 	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
 	"github.com/ltcsuite/ltcd/rpcclient"
-	"github.com/ltcsuite/ltcutil"
+	"github.com/ltcsuite/ltcd/ltcutil"
 )
 
 func main() {

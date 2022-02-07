@@ -1,11 +1,9 @@
 connmgr
 =======
 
-[![Build Status](http://img.shields.io/travis/ltcsuite/ltcd.svg)]
-(https://travis-ci.org/ltcsuite/ltcd) [![ISC License]
-(http://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)]
-(http://godoc.org/github.com/ltcsuite/ltcd/connmgr)
+[![Build Status](https://github.com/ltcsuite/ltcd/workflows/Build%20and%20Test/badge.svg)](https://github.com/ltcsuite/ltcd/actions)
+[![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://pkg.go.dev/github.com/ltcsuite/ltcd/connmgr)
 
 Package connmgr implements a generic Bitcoin network connection manager.
 

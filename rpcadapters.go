@@ -9,11 +9,11 @@ import (
 
 	"github.com/ltcsuite/ltcd/blockchain"
 	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
+	"github.com/ltcsuite/ltcd/ltcutil"
 	"github.com/ltcsuite/ltcd/mempool"
 	"github.com/ltcsuite/ltcd/netsync"
 	"github.com/ltcsuite/ltcd/peer"
 	"github.com/ltcsuite/ltcd/wire"
-	"github.com/ltcsuite/ltcutil"
 )
 
 // rpcPeer provides a peer for use with the RPC server and implements the
@@ -221,6 +221,15 @@ func (cm *rpcConnManager) AddRebroadcastInventory(iv *wire.InvVect, data interfa
 // passed transactions to all connected peers.
 func (cm *rpcConnManager) RelayTransactions(txns []*mempool.TxDesc) {
 	cm.server.relayTransactions(txns)
+}
+
+// NodeAddresses returns an array consisting node addresses which can
+// potentially be used to find new nodes in the network.
+//
+// This function is safe for concurrent access and is part of the
+// rpcserverConnManager interface implementation.
+func (cm *rpcConnManager) NodeAddresses() []*wire.NetAddress {
+	return cm.server.addrManager.AddressCache()
 }
 
 // rpcSyncMgr provides a block manager for use with the RPC server and

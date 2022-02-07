@@ -14,8 +14,8 @@ import (
 	"runtime"
 	"time"
 
+	"github.com/ltcsuite/ltcd/ltcutil"
 	rpc "github.com/ltcsuite/ltcd/rpcclient"
-	"github.com/ltcsuite/ltcutil"
 )
 
 // nodeConfig contains all the args, and data required to launch a ltcd process
@@ -41,10 +41,18 @@ type nodeConfig struct {
 }
 
 // newConfig returns a newConfig with all default values.
-func newConfig(prefix, certFile, keyFile string, extra []string) (*nodeConfig, error) {
-	ltcdPath, err := btcdExecutablePath()
-	if err != nil {
-		ltcdPath = "ltcd"
+func newConfig(prefix, certFile, keyFile string, extra []string,
+	customExePath string) (*nodeConfig, error) {
+
+	var ltcdPath string
+	if customExePath != "" {
+		ltcdPath = customExePath
+	} else {
+		var err error
+		ltcdPath, err = btcdExecutablePath()
+		if err != nil {
+			ltcdPath = "ltcd"
+		}
 	}
 
 	a := &nodeConfig{

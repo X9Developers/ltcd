@@ -8,7 +8,7 @@ import (
 	"fmt"
 
 	"github.com/ltcsuite/ltcd/database"
-	"github.com/ltcsuite/ltcutil"
+	"github.com/ltcsuite/ltcd/ltcutil"
 )
 
 // maybeAcceptBlock potentially accepts a block into the block chain and, if

@@ -14,8 +14,8 @@ import (
 
 	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
 	"github.com/ltcsuite/ltcd/database"
+	"github.com/ltcsuite/ltcd/ltcutil"
 	"github.com/ltcsuite/ltcd/wire"
-	"github.com/ltcsuite/ltcutil"
 )
 
 const (
@@ -120,7 +120,7 @@ func dbFetchVersion(dbTx database.Tx, key []byte) uint32 {
 		return 0
 	}
 
-	return byteOrder.Uint32(serialized[:])
+	return byteOrder.Uint32(serialized)
 }
 
 // dbPutVersion uses an existing database transaction to update the provided
@@ -943,7 +943,7 @@ func serializeBestChainState(state bestChainState) []byte {
 	byteOrder.PutUint32(serializedData[offset:], workSumBytesLen)
 	offset += 4
 	copy(serializedData[offset:], workSumBytes)
-	return serializedData[:]
+	return serializedData
 }
 
 // deserializeBestChainState deserializes the passed serialized best chain
